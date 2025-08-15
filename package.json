@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "lucide-react": "^0.539.0",
