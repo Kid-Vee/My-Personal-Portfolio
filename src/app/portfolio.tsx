@@ -420,7 +420,7 @@ const Hero: React.FC = () => (
             }}
             className="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-slate-900 transition-colors text-center"
           >
-            Let's Connect
+            Let&apos;s Connect
           </a>
         </div>
       </div>
@@ -440,7 +440,7 @@ const About: React.FC<{ statsRef: React.RefObject<HTMLDivElement | null>; statsR
         <div>
           <h3 className="text-2xl font-bold text-slate-900 mb-4">Results-Driven Product Leader</h3>
           <p className="text-slate-600 mb-4">
-            I'm a passionate Product Manager based in Abuja, Nigeria, specializing in end-to-end product development across EdTech and AgTech.
+            I&apos;m a passionate Product Manager based in Abuja, Nigeria, specializing in end-to-end product development across EdTech and AgTech.
             My approach blends data-driven decision making with user-centric design and clear stakeholder alignment.
           </p>
           <p className="text-slate-600 mb-8">
@@ -559,8 +559,7 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
     // Simulate async submission
     setTimeout(() => {
-      // eslint-disable-next-line no-alert
-      alert(`Thank you, ${formData.name}! Your message has been sent successfully.`);
+            alert(`Thank you, ${formData.name}! Your message has been sent successfully.`);
       setFormData({ name: "", email: "", subject: "", message: "" });
       setIsSubmitting(false);
     }, 1200);
@@ -569,10 +568,10 @@ const Contact: React.FC = () => {
   return (
     <section id="contact" className="py-20 bg-slate-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle title="Get In Touch" subtitle="Let's discuss your product needs and move your roadmap forward" />
+        <SectionTitle title="Get In Touch" subtitle="Let&apos;s discuss your product needs and move your roadmap forward" />
         <div className="grid lg:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-bold mb-4">Let's Work Together</h3>
+            <h3 className="text-2xl font-bold mb-4">Let&apos;s Work Together</h3>
             <p className="text-slate-300 mb-8">
               I help teams build exceptional products through clear strategy, user‑centered design, and data‑informed decisions.
             </p>
@@ -647,7 +646,7 @@ const Contact: React.FC = () => {
                 id="name"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
                 autoComplete="name"
               />
@@ -661,7 +660,7 @@ const Contact: React.FC = () => {
                 id="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
                 autoComplete="email"
               />
@@ -675,7 +674,7 @@ const Contact: React.FC = () => {
                 id="subject"
                 required
                 value={formData.subject}
-                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, subject: e.target.value })}
                 className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
               />
             </div>
@@ -688,7 +687,7 @@ const Contact: React.FC = () => {
                 rows={4}
                 required
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Tell me about your product management needs..."
                 className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white placeholder-slate-400"
               />
