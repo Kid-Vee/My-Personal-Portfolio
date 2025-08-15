@@ -321,7 +321,7 @@ const Navbar: React.FC<{
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <a href="#home" onClick={onClickLink("home")} className="font-bold text-xl text-slate-900">
-              Vision Olufeagba
+              VISION OLUFEAGBA
             </a>
           </div>
           <div className="hidden md:flex items-center space-x-8">
@@ -787,7 +787,7 @@ const Footer: React.FC = () => (
           <ul className="space-y-2 text-sm">
             <li>
               <a
-                href="https://www.aipmm.com/certification"
+                href="https://certificates.aipmm.com/e7039c87-ad2f-4e1a-8a2d-216dc9dad49f#acc.QjXTrEkP"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-slate-400 hover:text-white transition-colors"
@@ -798,7 +798,7 @@ const Footer: React.FC = () => (
             </li>
             <li>
               <a
-                href="https://aws.amazon.com/certification/cloud-practitioner"
+                href="https://www.credly.com/badges/4f92fbdc-f6a5-4701-acbb-cdcca944dc0b/public_url"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-slate-400 hover:text-white transition-colors"
@@ -809,7 +809,7 @@ const Footer: React.FC = () => (
             </li>
             <li>
               <a
-                href="https://www.udacity.com/course/product-manager-nanodegree"
+                href="https://www.udacity.com/certificate/e/c582a9d4-b93a-11ee-b642-1739e588702b"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-slate-400 hover:text-white transition-colors"
@@ -820,7 +820,7 @@ const Footer: React.FC = () => (
             </li>
             <li>
               <a
-                href="https://www.scrumstudy.com/certification"
+                href="https://www.scrumstudy.com/certification/verify?type=SFC&number=973461"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-slate-400 hover:text-white transition-colors"
@@ -831,7 +831,7 @@ const Footer: React.FC = () => (
             </li>
             <li>
               <a
-                href="https://www.pendo.io/ai-product-management"
+                href="https://www.credly.com/badges/267d90bc-0660-4300-8ebf-3c88317a8597/linked_in_profile"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-slate-400 hover:text-white transition-colors"
