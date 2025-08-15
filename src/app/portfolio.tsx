@@ -180,7 +180,10 @@ const PORTFOLIO_ITEMS = [
 /*************************************************
  * Utility hooks
  *************************************************/
-function useDebouncedCallback<T extends (...args: any[]) => void>(cb: T, delay = 100) {
+function useDebouncedCallback<T extends (...args: unknown[]) => void>(
+  cb: T,
+  delay = 100
+) {
   const timeoutRef = useRef<number | null>(null);
   const memoCb = useCallback(
     (...args: Parameters<T>) => {
@@ -189,6 +192,7 @@ function useDebouncedCallback<T extends (...args: any[]) => void>(cb: T, delay =
     },
     [cb, delay]
   );
+
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -196,8 +200,10 @@ function useDebouncedCallback<T extends (...args: any[]) => void>(cb: T, delay =
       }
     };
   }, []);
+
   return memoCb as T;
 }
+
 
 function useScrollSpy(ids: readonly string[]) {
   const [active, setActive] = useState(ids[0]);
