@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Menu,
   X,
@@ -8,18 +8,31 @@ import {
   Phone,
   MapPin,
   Linkedin,
+  Twitter,
+  FileText,
   Award,
   Target,
   Users,
-  BarChart,
-  BookOpen,
   GitBranch,
-  FileText,
-  Twitter,
+  BookOpen,
   Cloud,
   Brain,
-  Briefcase,
   Globe,
+  ArrowUpRight,
+  ArrowRight,
+  Sparkles,
+  Rocket,
+  LineChart,
+  Layers,
+  Compass,
+  Wallet,
+  Building2,
+  GraduationCap,
+  Zap,
+  CheckCircle2,
+  Map,
+  Bot,
+  type LucideIcon,
 } from "lucide-react";
 
 /*************************************************
@@ -29,161 +42,347 @@ const NAV_ITEMS = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
-  { id: "services", label: "Services" },
-  { id: "portfolio", label: "Portfolio" },
+  { id: "work", label: "Work" },
+  { id: "certifications", label: "Certs" },
   { id: "contact", label: "Contact" },
 ] as const;
 
-const STATS = [
-  { value: 25, label: "Feature Adoption Improvement", suffix: "%" },
-  { value: 90, label: "On-time Delivery Rate", suffix: "%" },
-  { value: 85, label: "Stakeholder Approval Rating", suffix: "%" },
-  { value: 65, label: "User Satisfaction Increase", suffix: "%" },
-] as const;
+const SECTORS = ["Fintech", "EdTech", "Real Estate", "Commodities"] as const;
 
-const SKILLS = [
-  "Jira",
-  "Figma",
-  "Miro",
-  "Mixpanel",
-  "Firebase",
-  "Scrum/Agile",
-  "AWS",
+const MARQUEE = [
   "Product Strategy",
-  "User Research",
-  "Stakeholder Management",
-  "Data Analytics",
   "Roadmapping",
+  "Agile / Scrum",
+  "User Research",
+  "Data-Driven Delivery",
+  "Stakeholder Alignment",
+  "Cross-Border Payments",
+  "Marketplace Design",
+  "Experimentation",
 ] as const;
 
-const SERVICES = [
+const STATS = [
+  { value: 4, label: "Years Leading Product", suffix: "+", accent: "cyan" },
+  { value: 65, label: "User Satisfaction Lift", suffix: "%", accent: "magenta" },
+  { value: 30, label: "Faster Delivery Cycles", suffix: "%", accent: "lime" },
+  { value: 90, label: "On-Time Delivery Rate", suffix: "%", accent: "violet" },
+] as const;
+
+const SKILL_GROUPS = [
+  {
+    label: "Product & Delivery",
+    icon: Compass,
+    accent: "cyan",
+    items: [
+      "Product Strategy",
+      "Roadmapping",
+      "Agile / Scrum",
+      "Backlog Management",
+      "PRDs & User Stories",
+      "Stakeholder Management",
+    ],
+  },
+  {
+    label: "Analytics & Research",
+    icon: LineChart,
+    accent: "magenta",
+    items: [
+      "Mixpanel",
+      "PostHog",
+      "LogRocket",
+      "UXCam",
+      "FormBricks",
+      "Firebase Crashlytics",
+    ],
+  },
+  {
+    label: "Tools & Collaboration",
+    icon: Layers,
+    accent: "lime",
+    items: ["Jira", "Linear", "Notion", "Miro", "Trello", "Slack", "ExcaliDraw"],
+  },
+] as const;
+
+type Accent = "cyan" | "magenta" | "lime" | "violet";
+
+const EXPERIENCES: {
+  title: string;
+  company: string;
+  location: string;
+  duration: string;
+  current?: boolean;
+  founder?: boolean;
+  accent: Accent;
+  achievements: string[];
+}[] = [
+  {
+    title: "Founder & Product Lead",
+    company: "BetaCV",
+    location: "Remote",
+    duration: "Jun 2026 — Present",
+    current: true,
+    founder: true,
+    accent: "lime",
+    achievements: [
+      "Founded and built BetaCV — an AI conversational résumé builder (\"AI Resume Padi\") that chats with users and generates ATS-compliant, single-column résumés in real time.",
+      "Architected the full-stack product end to end: a Vite + React + TypeScript frontend and an Express + TypeScript backend on Firebase (Auth + Firestore).",
+      "Shipped AI generation with a tiered model strategy (Free / Pro / Pro Max) and a resilient fallback chain, later migrating the engine from Gemini to Claude.",
+      "Built a one-time Pro paywall on Paystack with region-aware international USD pricing — live-verified and never touching card data.",
+      "Delivered server-side PDF and editable .docx export, plus hardening: rate limiting, caching, history trimming, and structured logging.",
+    ],
+  },
+  {
+    title: "Product Lead",
+    company: "WESOnline",
+    location: "Lagos",
+    duration: "Nov 2025 — Present",
+    current: true,
+    accent: "cyan",
+    achievements: [
+      "Implemented agile methodologies that reduced project delivery times by 30% and improved cross-functional collaboration.",
+      "Led the complete redesign and full UI/UX revamp of the WESOnline Marketplace, incorporating modern design principles and user feedback.",
+      "Directed onboarding of new tenants, customizing instances with tailored configurations and integrations to expand the user base.",
+      "Oversaw development of core modules for assessments, courses, and additional functionality via a scalable modular architecture.",
+      "Ran market analysis and competitor benchmarking to position WESOnline as a leader in online educational solutions.",
+    ],
+  },
+  {
+    title: "Product Manager",
+    company: "Finarium · MMG",
+    location: "Remote",
+    duration: "Nov 2025 — Feb 2026",
+    accent: "magenta",
+    achievements: [
+      "Led development of core cross-border remittance features, integrating multi-currency support and real-time exchange-rate APIs.",
+      "Ran market research and user interviews across 3 countries, prioritizing instant settlement, exchange-rate switching, and fraud detection.",
+      "Managed the product roadmap for web platforms, launching user-friendly admin and super-admin experiences.",
+      "Facilitated cross-functional agile sprints, resolving bottlenecks and ensuring on-time feature delivery.",
+    ],
+  },
+  {
+    title: "Product Lead",
+    company: "Vestate Agency",
+    location: "Remote",
+    duration: "Jun 2025 — Nov 2025",
+    accent: "lime",
+    achievements: [
+      "Led end-to-end product for a dual-sided property marketplace serving both owners and renters.",
+      "Designed quarterly roadmaps from stakeholder initiatives and user feedback, aligning market needs with business goals.",
+      "Used Mixpanel and PostHog to monitor behavior and optimize feature adoption, improving engagement.",
+      "Maintained a 90% on-time delivery rate and 85% stakeholder approval on development.",
+    ],
+  },
+  {
+    title: "Product Lead",
+    company: "AFEX",
+    location: "Abuja",
+    duration: "Apr 2022 — Nov 2025",
+    accent: "violet",
+    achievements: [
+      "Designed quarterly roadmaps synthesizing initiatives from 10+ stakeholders, driving a 25% improvement in feature adoption.",
+      "Managed a backlog of 80+ user stories with a 90% on-time delivery rate across 9 development sprints.",
+      "Delivered signed UAT at change-management presentations to 20+ team members, earning 85% stakeholder approval.",
+      "Maintained 98% daily-scrum attendance and 92% velocity consistency while reducing blockers by 40%.",
+      "Authored 12+ PRDs and reduced cross-team communication delays by 50%.",
+    ],
+  },
+  {
+    title: "Product Lead",
+    company: "Educratic Technologies",
+    location: "Remote",
+    duration: "May 2024 — Apr 2025",
+    accent: "cyan",
+    achievements: [
+      "Led end-to-end product for a learning-management platform serving exam-class students and organization-level professionals.",
+      "Defined vision and roadmaps for 4 core modules: assessment, content delivery, analytics, and admin.",
+      "Ran research with 80+ teachers, students, and administrators, lifting user satisfaction scores by 65%.",
+      "Managed full sprint cycles — planning, execution, review, and retrospectives — across cross-functional teams.",
+    ],
+  },
+];
+
+const SERVICES: { icon: LucideIcon; title: string; description: string; accent: Accent }[] = [
   {
     icon: Target,
     title: "Product Strategy & Roadmapping",
     description:
-      "Develop comprehensive product strategies and quarterly roadmaps aligned with business objectives. Synthesize stakeholder feedback and market research into actionable plans.",
+      "Translate stakeholder initiatives and market signals into quarterly roadmaps that ship — aligned to real business outcomes.",
+    accent: "cyan",
   },
   {
     icon: GitBranch,
-    title: "Agile Product Management",
+    title: "Agile Product Leadership",
     description:
-      "Facilitation of Scrum ceremonies including planning, standups, and retrospectives. Maintain high velocity and delivery consistency.",
+      "Run the full Scrum cadence — planning, standups, reviews, retros — keeping velocity high and blockers low.",
+    accent: "magenta",
   },
   {
-    icon: BarChart,
-    title: "User Research & Analytics",
+    icon: LineChart,
+    title: "Research & Analytics",
     description:
-      "Conduct research and leverage tools like Mixpanel, LogRocket, and Firebase to drive data-informed decisions.",
+      "Mixpanel, PostHog, LogRocket and UXCam turned into decisions. Interviews and experiments that de-risk the roadmap.",
+    accent: "lime",
+  },
+  {
+    icon: Wallet,
+    title: "Fintech & Payments",
+    description:
+      "Cross-border remittance, multi-currency flows, real-time FX, and fraud-aware product design built for trust at scale.",
+    accent: "violet",
   },
   {
     icon: Users,
     title: "Stakeholder Management",
     description:
-      "Enable clear communication across cross-functional teams and business stakeholders. Lead change management and drive buy‑in.",
+      "Clear communication across executives, engineering, and end-users — driving buy-in and signed-off change management.",
+    accent: "cyan",
   },
   {
-    icon: FileText,
-    title: "Product Backlog Management",
+    icon: Layers,
+    title: "Marketplace & Platform",
     description:
-      "Prioritize complex backlogs based on business value. Create PRDs and user stories that guide delivery.",
+      "Dual-sided marketplaces and modular, multi-tenant platforms designed for scalable, seamless rollouts.",
+    accent: "magenta",
   },
-  {
-    icon: BookOpen,
-    title: "EdTech & AgTech Expertise",
-    description:
-      "Specialized experience building in EdTech and AgTech with deep understanding of user needs and market dynamics.",
-  },
-] as const;
+];
 
-const EXPERIENCES = [
+const PORTFOLIO_ITEMS: {
+  title: string;
+  company: string;
+  description: string;
+  tags: string[];
+  icon: LucideIcon;
+  accent: Accent;
+  featured?: boolean;
+  href?: string;
+} [] = [
   {
-    title: "Lead Product Manager (Trade)",
-    company: "AFEX",
-    location: "Abuja",
-    duration: "April 2022 - Present",
-    achievements: [
-      "Designed quarterly product roadmaps synthesizing initiatives from 10+ stakeholders, achieving 25% improvement in feature adoption rates",
-      "Managed product backlog of 80+ user stories with 90% on-time delivery rate across 9 development sprints",
-      "Led bi-weekly sprint planning sessions for 5-person development team with 90% sprint goal completion rate",
-      "Facilitated communication with 20+ cross-functional business stakeholders across multiple departments",
-      "Achieved 85% stakeholder approval rating through effective change management presentations",
-      "Reduced revision cycles by 30% through efficient design reviews and stakeholder sign-offs",
-    ],
-  },
-  {
-    title: "Product Lead (IDSS)",
-    company: "Educratic Technologies Limited",
-    location: "Remote",
-    duration: "May 2024 - April 2025",
-    achievements: [
-      "Led end-to-end product development for learning management platform serving exam class students and professionals",
-      "Defined product vision and development roadmaps for 4 core modules (assessment, content delivery, analytics, and admin)",
-      "Conducted extensive user research with 80+ teachers, students, and administrators",
-      "Achieved 65% improvement in user satisfaction scores through user-centric design approach",
-      "Managed complete sprint cycles including planning, execution, review, and retrospective activities",
-      "Coordinated cross-functional collaboration between development, design, and business teams",
-    ],
-  },
-] as const;
-
-const PORTFOLIO_ITEMS = [
-  {
-    title: "Agricultural Trading Platform",
-    company: "AFEX Trade Platform",
+    title: "BetaCV — AI Résumé Builder",
+    company: "Founder · AI SaaS",
     description:
-      "Led product development for AFEX's trade platform, managing quarterly roadmaps and achieving 25% improvement in feature adoption through data-driven prioritization.",
-    tags: ["Product Strategy", "Agile/Scrum", "Stakeholder Management", "AgTech"],
+      "Founded and built an AI conversational résumé builder that generates ATS-compliant résumés in real time. Full-stack React + Express on Firebase, with tiered AI models, Paystack payments, and PDF/.docx export.",
+    tags: ["Founder", "AI / LLM", "Full-Stack", "Paystack", "Firebase"],
+    icon: Bot,
+    accent: "lime",
+    featured: true,
+  },
+  {
+    title: "Marketplace Redesign",
+    company: "WESOnline · EdTech",
+    description:
+      "Full UI/UX revamp and modular re-architecture of the WESOnline marketplace, cutting delivery times 30% while scaling multi-tenant onboarding.",
+    tags: ["UI/UX Revamp", "Modular Architecture", "Multi-Tenant", "Agile"],
+    icon: Rocket,
+    accent: "cyan",
+  },
+  {
+    title: "Cross-Border Remittance",
+    company: "Finarium · Fintech",
+    description:
+      "Multi-currency remittance with real-time FX APIs, instant settlement, and fraud detection — informed by user research across 3 countries.",
+    tags: ["Payments", "Multi-Currency", "Real-Time FX", "Fraud Detection"],
+    icon: Wallet,
+    accent: "magenta",
+  },
+  {
+    title: "Commodities Trading Platform",
+    company: "AFEX · Commodities",
+    description:
+      "Quarterly roadmaps from 10+ stakeholders driving 25% feature-adoption gains, 90% on-time delivery, and 40% fewer blockers.",
+    tags: ["Product Strategy", "AgTech", "Stakeholders", "Scrum"],
     icon: Globe,
+    accent: "lime",
   },
   {
-    title: "EdTech Platform (IDSS)",
-    company: "Learning Management System",
+    title: "Property Marketplace",
+    company: "Vestate · Real Estate",
     description:
-      "Developed learning management platform with 4 core modules; conducted research with 80+ participants and achieved 65% improvement in user satisfaction.",
-    tags: ["EdTech", "User Research", "Product Development", "Analytics"],
+      "Dual-sided marketplace for owners and renters, optimized with Mixpanel and PostHog to lift engagement and feature adoption.",
+    tags: ["Marketplace", "User Research", "PostHog", "Roadmapping"],
+    icon: Building2,
+    accent: "violet",
+  },
+  {
+    title: "Learning Management System",
+    company: "Educratic · EdTech",
+    description:
+      "4-module LMS for exam-class students and professionals; research with 80+ users lifted satisfaction scores by 65%.",
+    tags: ["EdTech", "Assessment", "Analytics", "65% CSAT"],
     icon: BookOpen,
+    accent: "cyan",
   },
   {
-    title: "Data-Driven Product Insights",
-    company: "Product Analytics Dashboard",
+    title: "Analytics & Experimentation",
+    company: "Cross-Portfolio",
     description:
-      "Implemented analytics framework using Mixpanel, LogRocket, and Firebase Crashlytics to guide product decisions and optimize UX.",
-    tags: ["Analytics", "Mixpanel", "Firebase", "Data Strategy"],
-    icon: BarChart,
+      "A reusable measurement framework — Mixpanel, PostHog, LogRocket, UXCam, Firebase — turning behavior into prioritized roadmap bets.",
+    tags: ["Mixpanel", "PostHog", "LogRocket", "Data Strategy"],
+    icon: LineChart,
+    accent: "magenta",
+  },
+];
+
+const CERTIFICATIONS: {
+  title: string;
+  issuer: string;
+  icon: LucideIcon;
+  href?: string;
+  accent: Accent;
+}[] = [
+  {
+    title: "Certified Product Manager (CPM)",
+    issuer: "AIPMM",
+    icon: Award,
+    href: "https://certificates.aipmm.com/e7039c87-ad2f-4e1a-8a2d-216dc9dad49f#acc.QjXTrEkP",
+    accent: "cyan",
   },
   {
-    title: "Sprint Management Excellence",
-    company: "Agile Transformation",
-    description:
-      "Achieved 92% velocity consistency across development sprints while maintaining 98% daily scrum attendance and reducing blockers by 40%.",
-    tags: ["Scrum Master", "Team Leadership", "Process Optimization", "Agile"],
+    title: "AWS Certified Cloud Practitioner",
+    issuer: "Amazon Web Services",
+    icon: Cloud,
+    href: "https://www.credly.com/badges/4f92fbdc-f6a5-4701-acbb-cdcca944dc0b/public_url",
+    accent: "magenta",
+  },
+  {
+    title: "Product Manager Nanodegree",
+    issuer: "Udacity",
+    icon: GraduationCap,
+    href: "https://www.udacity.com/certificate/e/c582a9d4-b93a-11ee-b642-1739e588702b",
+    accent: "lime",
+  },
+  {
+    title: "AI for Product Management",
+    issuer: "Pendo × Mind the Product",
+    icon: Brain,
+    href: "https://www.credly.com/badges/267d90bc-0660-4300-8ebf-3c88317a8597/linked_in_profile",
+    accent: "violet",
+  },
+  {
+    title: "Product Roadmapping (PRC)",
+    issuer: "Product School",
+    icon: Map,
+    accent: "cyan",
+  },
+  {
+    title: "Scrum Fundamentals Certified (SFC)",
+    issuer: "ScrumStudy",
     icon: GitBranch,
+    href: "https://www.scrumstudy.com/certification/verify?type=SFC&number=973461",
+    accent: "magenta",
   },
-  {
-    title: "Comprehensive PRD Framework",
-    company: "Product Documentation",
-    description:
-      "Developed 12+ PRDs and user stories, reducing revision cycles by 30% through effective stakeholder collaboration.",
-    tags: ["Documentation", "Requirements", "User Stories", "Process"],
-    icon: FileText,
-  },
-  {
-    title: "Stakeholder Alignment Success",
-    company: "Change Management",
-    description:
-      "Delivered change management presentations to 20+ team members, achieving 85% stakeholder approval rating through clear communication and effective UAT.",
-    tags: ["Change Management", "Presentations", "UAT", "Communication"],
-    icon: Users,
-  },
-] as const;
+];
+
+const ACCENT_VAR: Record<Accent, string> = {
+  cyan: "var(--cyan)",
+  magenta: "var(--magenta)",
+  lime: "var(--lime)",
+  violet: "var(--violet)",
+};
 
 /*************************************************
  * Utility hooks
  *************************************************/
-function useDebouncedCallback<T extends (...args: unknown[]) => void>(
-  cb: T,
-  delay = 100
-) {
+function useDebouncedCallback<T extends (...args: unknown[]) => void>(cb: T, delay = 100) {
   const timeoutRef = useRef<number | null>(null);
   const memoCb = useCallback(
     (...args: Parameters<T>) => {
@@ -192,23 +391,16 @@ function useDebouncedCallback<T extends (...args: unknown[]) => void>(
     },
     [cb, delay]
   );
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-      }
-    };
+  useEffect(() => () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
   }, []);
-
   return memoCb as T;
 }
-
 
 function useScrollSpy(ids: readonly string[]) {
   const [active, setActive] = useState(ids[0]);
   const handle = useDebouncedCallback(() => {
-    const y = window.scrollY + 100;
+    const y = window.scrollY + 120;
     for (const id of ids) {
       const el = document.getElementById(id);
       if (!el) continue;
@@ -218,15 +410,63 @@ function useScrollSpy(ids: readonly string[]) {
         break;
       }
     }
-  }, 50);
-
+  }, 40);
   useEffect(() => {
     handle();
     window.addEventListener("scroll", handle, { passive: true });
     return () => window.removeEventListener("scroll", handle);
   }, [handle]);
-
   return active;
+}
+
+function useScr11() {
+  const [scrolled, setScrolled] = useState(false);
+  const onScroll = useDebouncedCallback(() => setScrolled(window.scrollY > 40), 40);
+  useEffect(() => {
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [onScroll]);
+  return scrolled;
+}
+
+function useScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  const onScroll = useDebouncedCallback(() => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    setProgress(max > 0 ? (h.scrollTop / max) * 100 : 0);
+  }, 16);
+  useEffect(() => {
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [onScroll]);
+  return progress;
+}
+
+/** Adds `.is-visible` to elements with `.reveal` once they enter the viewport. */
+function useReveal() {
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 }
 
 function useIntersection(
@@ -245,44 +485,73 @@ function useIntersection(
   }, [ref, onIntersect, options]);
 }
 
+function smoothTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 /*************************************************
  * Reusable UI bits
  *************************************************/
-const SectionTitle: React.FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => (
-  <div className="text-center mb-12">
-    <h2 className="text-4xl font-bold text-slate-900 mb-4">{title}</h2>
-    {subtitle ? <p className="text-lg text-slate-600 max-w-2xl mx-auto">{subtitle}</p> : null}
+const Eyebrow: React.FC<{ children: React.ReactNode; accent?: Accent }> = ({
+  children,
+  accent = "cyan",
+}) => (
+  <span
+    className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] font-mono"
+    style={{
+      color: ACCENT_VAR[accent],
+      borderColor: ACCENT_VAR[accent],
+      boxShadow: `0 0 24px -10px ${ACCENT_VAR[accent]}`,
+      background: "rgba(255,255,255,0.02)",
+    }}
+  >
+    <span
+      className="h-1.5 w-1.5 rounded-full"
+      style={{ background: ACCENT_VAR[accent], boxShadow: `0 0 8px ${ACCENT_VAR[accent]}` }}
+    />
+    {children}
+  </span>
+);
+
+const SectionHeader: React.FC<{
+  eyebrow: string;
+  title: React.ReactNode;
+  subtitle?: string;
+  accent?: Accent;
+}> = ({ eyebrow, title, subtitle, accent = "cyan" }) => (
+  <div className="reveal mx-auto mb-14 max-w-2xl text-center">
+    <Eyebrow accent={accent}>{eyebrow}</Eyebrow>
+    <h2 className="mt-5 font-display text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+      {title}
+    </h2>
+    {subtitle ? <p className="mt-4 text-lg text-muted">{subtitle}</p> : null}
   </div>
 );
 
-const AnimatedStat: React.FC<{ value: number; label: string; suffix?: string; run: boolean }> = ({
-  value,
-  label,
-  suffix = "",
-  run,
-}) => {
+const AnimatedStat: React.FC<{
+  value: number;
+  label: string;
+  suffix?: string;
+  accent: Accent;
+  run: boolean;
+}> = ({ value, label, suffix = "", accent, run }) => {
   const [count, setCount] = useState(0);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!run) return;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setCount(value);
       return;
     }
-    const duration = 900; // ms
+    const duration = 1100;
     const start = performance.now();
-    const startVal = 0;
-
     const step = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      const next = Math.round(startVal + (value - startVal) * eased);
-      setCount(next);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setCount(Math.round(value * eased));
       if (t < 1) rafRef.current = requestAnimationFrame(step);
     };
-
     rafRef.current = requestAnimationFrame(step);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -290,88 +559,160 @@ const AnimatedStat: React.FC<{ value: number; label: string; suffix?: string; ru
   }, [run, value]);
 
   return (
-    <div className="bg-slate-50 p-6 rounded-xl text-center">
-      <div className="text-3xl font-bold text-slate-900 mb-2">
+    <div
+      className="group relative overflow-hidden rounded-2xl border glass p-6 text-center transition-transform duration-300 hover:-translate-y-1"
+      style={{ borderColor: "var(--border)" }}
+    >
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ boxShadow: `inset 0 0 40px -16px ${ACCENT_VAR[accent]}` }}
+      />
+      <div
+        className="font-display text-4xl font-bold sm:text-5xl animate-pulse-glow"
+        style={{ color: ACCENT_VAR[accent] }}
+      >
         {count}
         {suffix}
       </div>
-      <div className="text-sm text-slate-600">{label}</div>
+      <div className="mt-2 text-sm text-muted">{label}</div>
     </div>
   );
 };
 
 /*************************************************
- * Sections
+ * Background orbs (fixed, decorative)
+ *************************************************/
+const Backdrop: React.FC = () => (
+  <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div
+      className="absolute -left-32 top-[-10%] h-[42rem] w-[42rem] rounded-full opacity-[0.18] blur-[120px] animate-float-slow"
+      style={{ background: "radial-gradient(circle, var(--cyan), transparent 60%)" }}
+    />
+    <div
+      className="absolute right-[-10%] top-[30%] h-[36rem] w-[36rem] rounded-full opacity-[0.16] blur-[120px] animate-float-slow-2"
+      style={{ background: "radial-gradient(circle, var(--magenta), transparent 60%)" }}
+    />
+    <div
+      className="absolute bottom-[-15%] left-[25%] h-[34rem] w-[34rem] rounded-full opacity-[0.12] blur-[120px] animate-float-slow"
+      style={{ background: "radial-gradient(circle, var(--violet), transparent 60%)" }}
+    />
+  </div>
+);
+
+/*************************************************
+ * Navbar
  *************************************************/
 const Navbar: React.FC<{
   active: string;
   isOpen: boolean;
   setOpen: (v: boolean) => void;
 }> = ({ active, isOpen, setOpen }) => {
-  const scrolled = useScrollShadow();
+  const scrolled = useScr11();
+  const progress = useScrollProgress();
   const onClickLink = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    smoothTo(id);
     setOpen(false);
   };
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-md"
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "glass border-b" : "border-b border-transparent"
       }`}
+      style={{ borderColor: scrolled ? "var(--border)" : "transparent" }}
       role="navigation"
       aria-label="Primary"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <a href="#home" onClick={onClickLink("home")} className="font-bold text-xl text-slate-900">
-              VISION OLUFEAGBA
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <a
+            href="#home"
+            onClick={onClickLink("home")}
+            className="group flex items-center gap-2 font-display text-lg font-bold tracking-tight"
+          >
+            <span
+              className="grid h-8 w-8 place-items-center rounded-lg font-mono text-sm text-bg"
+              style={{ background: "linear-gradient(135deg, var(--cyan), var(--magenta))" }}
+            >
+              GV
+            </span>
+            <span className="text-foreground">
+              Gideon<span className="text-gradient">.</span>
+            </span>
+          </a>
+
+          <div className="hidden items-center gap-1 md:flex">
+            {NAV_ITEMS.map((item) => {
+              const isActive = active === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={onClickLink(item.id)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive ? "text-foreground" : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span
+                      className="absolute inset-x-2 -bottom-px h-px"
+                      style={{
+                        background: "linear-gradient(90deg, transparent, var(--cyan), transparent)",
+                        boxShadow: "0 0 10px var(--cyan)",
+                      }}
+                    />
+                  )}
+                </a>
+              );
+            })}
+            <a
+              href="#contact"
+              onClick={onClickLink("contact")}
+              className="ml-2 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold text-bg transition-transform hover:-translate-y-0.5"
+              style={{
+                background: "linear-gradient(135deg, var(--cyan), var(--violet))",
+                boxShadow: "0 0 24px -8px var(--cyan)",
+              }}
+            >
+              Let&apos;s talk <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
-          <div className="hidden md:flex items-center space-x-8">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={onClickLink(item.id)}
-                className={`text-sm font-medium transition-all duration-200 relative py-2 ${
-                  active === item.id ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
-                }`}
-                aria-current={active === item.id ? "page" : undefined}
-              >
-                {item.label}
-                {active === item.id && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-slate-900" />
-                )}
-              </a>
-            ))}
-          </div>
-          <div className="md:hidden">
-            <button
-              onClick={() => setOpen(!isOpen)}
-              className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <X className="w-6 h-6 text-slate-900" /> : <Menu className="w-6 h-6 text-slate-900" />}
-            </button>
-          </div>
+
+          <button
+            onClick={() => setOpen(!isOpen)}
+            className="rounded-lg p-2 text-foreground transition-colors hover:bg-white/5 md:hidden"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
       </div>
+
+      {/* scroll progress bar */}
+      <div
+        className="h-px origin-left"
+        style={{
+          transform: `scaleX(${progress / 100})`,
+          background: "linear-gradient(90deg, var(--cyan), var(--magenta), var(--lime))",
+        }}
+      />
+
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-slate-200 shadow-lg">
-          <div className="px-4 py-2 space-y-1">
+        <div className="glass border-t md:hidden" style={{ borderColor: "var(--border)" }}>
+          <div className="space-y-1 px-4 py-3">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={onClickLink(item.id)}
-                className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   active === item.id
-                    ? "text-slate-900 bg-slate-100"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-white/5 text-foreground"
+                    : "text-muted hover:bg-white/5 hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -384,117 +725,433 @@ const Navbar: React.FC<{
   );
 };
 
-function useScrollShadow() {
-  const [scrolled, setScrolled] = useState(false);
-  const onScroll = useDebouncedCallback(() => setScrolled(window.scrollY > 50), 50);
-  useEffect(() => {
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [onScroll]);
-  return scrolled;
-}
-
+/*************************************************
+ * Hero
+ *************************************************/
 const Hero: React.FC = () => (
-  <section id="home" className="min-h-screen flex items-center bg-slate-900 text-white pt-16">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-16">
+    <div className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="max-w-4xl">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">Gideon Vision Olufeagba</h1>
-        <p className="text-2xl font-semibold mb-2 text-slate-300">Product Manager</p>
-        <p className="text-lg mb-6 text-slate-400">Certified Product Manager (CPM) | AWS Certified Cloud Practitioner</p>
-        <p className="text-lg mb-8 text-slate-300 leading-relaxed">
-          Results-driven Product Manager with expertise in end-to-end product development, strategic roadmap planning, and
-          cross-functional leadership. Proven success designing quarterly roadmaps, managing complex backlogs, and facilitating Agile
-          methodologies across EdTech and AgTech.
+        <div className="reveal">
+          <Eyebrow accent="lime">Product Manager · CPM</Eyebrow>
+        </div>
+
+        <h1 className="reveal mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl">
+          <span className="text-foreground">Gideon Vision</span>
+          <br />
+          <span className="text-gradient text-glow-cyan">Olufeagba</span>
+        </h1>
+
+        <p className="reveal mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+          Certified Product Manager with{" "}
+          <span className="font-semibold text-foreground">4+ years</span> leading end-to-end
+          product across{" "}
+          <span className="font-semibold" style={{ color: "var(--cyan)" }}>
+            fintech, edtech, real estate
+          </span>{" "}
+          and{" "}
+          <span className="font-semibold" style={{ color: "var(--magenta)" }}>
+            commodities
+          </span>{" "}
+          — turning research and strategy into products that ship and scale.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4">
+
+        <div className="reveal mt-8 flex flex-col gap-4 sm:flex-row">
           <a
-            href="#portfolio"
+            href="#work"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+              smoothTo("work");
             }}
-            className="px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-colors text-center"
+            className="group inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-base font-semibold text-bg transition-transform hover:-translate-y-0.5"
+            style={{
+              background: "linear-gradient(135deg, var(--cyan), var(--violet))",
+              boxShadow: "0 0 32px -8px var(--cyan)",
+            }}
           >
             View My Work
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </a>
           <a
             href="#contact"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              smoothTo("contact");
             }}
-            className="px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-slate-900 transition-colors text-center"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border px-7 py-3.5 text-base font-semibold text-foreground transition-colors hover:bg-white/5"
+            style={{ borderColor: "var(--border)" }}
           >
+            <Sparkles className="h-5 w-5" style={{ color: "var(--lime)" }} />
             Let&apos;s Connect
           </a>
         </div>
+
+        <div className="reveal mt-12 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted">
+          <span className="font-mono uppercase tracking-widest text-xs">Sectors</span>
+          {SECTORS.map((s) => (
+            <span key={s} className="inline-flex items-center gap-2">
+              <Zap className="h-3.5 w-3.5" style={{ color: "var(--lime)" }} />
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* scroll hint */}
+    <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted sm:flex">
+      <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+      <span className="h-10 w-px animate-pulse" style={{ background: "var(--cyan)" }} />
+    </div>
+  </section>
+);
+
+/*************************************************
+ * Marquee strip
+ *************************************************/
+const MarqueeStrip: React.FC = () => {
+  const items = [...MARQUEE, ...MARQUEE];
+  return (
+    <div
+      className="relative overflow-hidden border-y py-5"
+      style={{ borderColor: "var(--border)", background: "rgba(255,255,255,0.015)" }}
+    >
+      <div className="flex w-max animate-marquee gap-10 pr-10">
+        {items.map((item, i) => (
+          <span key={i} className="inline-flex items-center gap-10 font-display text-lg text-muted">
+            {item}
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--magenta)" }} />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/*************************************************
+ * About
+ *************************************************/
+const About: React.FC<{
+  statsRef: React.RefObject<HTMLDivElement | null>;
+  statsRun: boolean;
+}> = ({ statsRef, statsRun }) => (
+  <section id="about" className="relative py-24">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="About"
+        title={<>Product leadership, <span className="text-gradient">measured in outcomes</span></>}
+        subtitle="A builder who blends user research, data, and tight stakeholder alignment to ship products people actually adopt."
+        accent="cyan"
+      />
+
+      <div className="grid items-start gap-12 lg:grid-cols-5">
+        <div className="reveal lg:col-span-3">
+          <p className="text-lg leading-relaxed text-muted">
+            I&apos;m a Product Manager based in Nigeria, leading end-to-end development across
+            fintech, edtech, real estate, and commodities. My approach pairs{" "}
+            <span className="text-foreground">data-driven decisions</span> with{" "}
+            <span className="text-foreground">user-centered design</span> and clear stakeholder
+            alignment — so the right things get built, on time.
+          </p>
+          <p className="mt-4 text-lg leading-relaxed text-muted">
+            From cross-border remittance at Finarium to a full marketplace revamp at WESOnline,
+            I&apos;ve consistently cut delivery times, lifted adoption, and raised satisfaction
+            scores. Certified in Product Management, AWS Cloud, and Scrum.
+          </p>
+
+          <div ref={statsRef} className="mt-10 grid grid-cols-2 gap-4">
+            {STATS.map((s) => (
+              <AnimatedStat
+                key={s.label}
+                value={s.value}
+                label={s.label}
+                suffix={s.suffix}
+                accent={s.accent as Accent}
+                run={statsRun}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Skill groups */}
+        <div className="reveal space-y-4 lg:col-span-2">
+          {SKILL_GROUPS.map((group) => {
+            const accent = group.accent as Accent;
+            return (
+              <div
+                key={group.label}
+                className="rounded-2xl border glass p-5"
+                style={{ borderColor: "var(--border)" }}
+              >
+                <div className="mb-3 flex items-center gap-3">
+                  <span
+                    className="grid h-9 w-9 place-items-center rounded-lg"
+                    style={{
+                      color: ACCENT_VAR[accent],
+                      background: "rgba(255,255,255,0.04)",
+                      boxShadow: `0 0 20px -8px ${ACCENT_VAR[accent]}`,
+                    }}
+                  >
+                    <group.icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-display text-base font-semibold text-foreground">
+                    {group.label}
+                  </h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border px-3 py-1 text-xs text-muted transition-colors hover:text-foreground"
+                      style={{ borderColor: "var(--border)" }}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   </section>
 );
 
-const About: React.FC<{ statsRef: React.RefObject<HTMLDivElement | null>; statsRun: boolean } & { skills: readonly string[] }> = ({
-  statsRef,
-  statsRun,
-  skills,
-}) => (
-  <section id="about" className="py-20 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle title="About Me" subtitle="Discover my journey in product management and passion for creating impactful digital solutions" />
-      <div className="grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">Results-Driven Product Leader</h3>
-          <p className="text-slate-600 mb-4">
-            I&apos;m a passionate Product Manager based in Abuja, Nigeria, specializing in end-to-end product development across EdTech and AgTech.
-            My approach blends data-driven decision making with user-centric design and clear stakeholder alignment.
-          </p>
-          <p className="text-slate-600 mb-8">
-            With certifications in Product Management, AWS Cloud, and Scrum fundamentals, I bring both strategic vision and technical understanding to every project.
-          </p>
-          <div ref={statsRef} className="grid grid-cols-2 gap-4 mb-8">
-            {STATS.map((s, i) => (
-              <AnimatedStat key={i} value={s.value} label={s.label} suffix={s.suffix} run={statsRun} />
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <span key={skill} className="px-4 py-2 bg-slate-900 text-white rounded-full text-sm font-medium">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="bg-slate-100 rounded-2xl h-96 flex items-center justify-center">
-          <div className="text-center text-slate-500">
-            <Briefcase className="w-16 h-16 mx-auto mb-4" />
-            <p className="text-lg">Professional Photo</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
+/*************************************************
+ * Experience timeline
+ *************************************************/
 const Experience: React.FC = () => (
-  <section id="experience" className="py-20 bg-slate-50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle title="Professional Experience" subtitle="My journey in product management across EdTech and AgTech" />
-      <div className="max-w-4xl mx-auto space-y-8">
-        {EXPERIENCES.map((exp) => (
-          <article key={exp.title} className="bg-white rounded-xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">{exp.title}</h3>
-            <div className="text-lg font-semibold text-slate-700 mb-1">
-              {exp.company} - {exp.location}
+  <section id="experience" className="relative py-24" style={{ background: "var(--bg-soft)" }}>
+    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="Experience"
+        title={<>The <span className="text-gradient">journey</span> so far</>}
+        subtitle="Founder of an AI résumé startup and product roles across fintech, edtech, real estate, and commodities."
+        accent="magenta"
+      />
+
+      <div className="relative">
+        {/* vertical line */}
+        <div
+          className="absolute left-4 top-2 hidden h-full w-px sm:block"
+          style={{ background: "linear-gradient(var(--cyan), var(--magenta), transparent)" }}
+        />
+
+        <div className="space-y-6">
+          {EXPERIENCES.map((exp) => (
+            <article
+              key={`${exp.company}-${exp.duration}`}
+              className="reveal group relative rounded-2xl border glass p-6 transition-transform duration-300 hover:-translate-y-1 sm:ml-12 sm:p-8"
+              style={{ borderColor: "var(--border)" }}
+            >
+              {/* node */}
+              <span
+                className="absolute -left-12 top-8 hidden h-3 w-3 rounded-full sm:block"
+                style={{
+                  background: ACCENT_VAR[exp.accent],
+                  boxShadow: `0 0 16px ${ACCENT_VAR[exp.accent]}, 0 0 0 4px var(--bg-soft)`,
+                }}
+              />
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 className="font-display text-xl font-bold text-foreground sm:text-2xl">
+                    {exp.title}
+                  </h3>
+                  <div
+                    className="mt-1 text-base font-semibold"
+                    style={{ color: ACCENT_VAR[exp.accent] }}
+                  >
+                    {exp.company}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="mb-1 flex flex-wrap items-center justify-end gap-1.5">
+                    {exp.founder && (
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold font-mono text-bg"
+                        style={{
+                          background: "linear-gradient(135deg, var(--cyan), var(--lime))",
+                          boxShadow: "0 0 18px -6px var(--lime)",
+                        }}
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        Founder
+                      </span>
+                    )}
+                    {exp.current && (
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium font-mono"
+                        style={{
+                          color: "var(--lime)",
+                          background: "rgba(163,230,53,0.1)",
+                          border: "1px solid rgba(163,230,53,0.3)",
+                        }}
+                      >
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: "var(--lime)" }} />
+                        Current
+                      </span>
+                    )}
+                  </div>
+                  <div className="font-mono text-xs text-muted">{exp.duration}</div>
+                  <div className="flex items-center justify-end gap-1 text-xs text-muted">
+                    <MapPin className="h-3 w-3" /> {exp.location}
+                  </div>
+                </div>
+              </div>
+
+              <ul className="mt-5 space-y-2.5">
+                {exp.achievements.map((ach) => (
+                  <li key={ach} className="flex gap-3 text-sm leading-relaxed text-muted">
+                    <CheckCircle2
+                      className="mt-0.5 h-4 w-4 flex-shrink-0"
+                      style={{ color: ACCENT_VAR[exp.accent] }}
+                    />
+                    <span>{ach}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+/*************************************************
+ * Services / Expertise
+ *************************************************/
+const Services: React.FC = () => (
+  <section id="services" className="relative py-24">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="What I Do"
+        title={<>Expertise that <span className="text-gradient-lime">ships</span></>}
+        subtitle="End-to-end product capability — from strategy and research to delivery and growth."
+        accent="lime"
+      />
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {SERVICES.map((s) => (
+          <div
+            key={s.title}
+            className="reveal group relative overflow-hidden rounded-2xl border glass p-6 transition-transform duration-300 hover:-translate-y-1.5"
+            style={{ borderColor: "var(--border)" }}
+          >
+            <div
+              className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{ boxShadow: `inset 0 0 60px -24px ${ACCENT_VAR[s.accent]}` }}
+            />
+            <span
+              className="grid h-12 w-12 place-items-center rounded-xl"
+              style={{
+                color: ACCENT_VAR[s.accent],
+                background: "rgba(255,255,255,0.04)",
+                boxShadow: `0 0 28px -10px ${ACCENT_VAR[s.accent]}`,
+              }}
+            >
+              <s.icon className="h-6 w-6" />
+            </span>
+            <h3 className="mt-5 font-display text-lg font-bold text-foreground">{s.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">{s.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+/*************************************************
+ * Work / Portfolio
+ *************************************************/
+const Work: React.FC = () => (
+  <section id="work" className="relative py-24" style={{ background: "var(--bg-soft)" }}>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="Selected Work"
+        title={<>Products I&apos;ve <span className="text-gradient">shipped</span></>}
+        subtitle="A snapshot of platforms and outcomes across the portfolio."
+        accent="cyan"
+      />
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {PORTFOLIO_ITEMS.map((item) => (
+          <article
+            key={item.title}
+            className={`reveal group relative flex flex-col overflow-hidden rounded-2xl border glass transition-transform duration-300 hover:-translate-y-1.5 ${
+              item.featured ? "sm:col-span-2 lg:col-span-2" : ""
+            }`}
+            style={{
+              borderColor: item.featured ? `${ACCENT_VAR[item.accent]}66` : "var(--border)",
+              boxShadow: item.featured ? `0 0 50px -20px ${ACCENT_VAR[item.accent]}` : undefined,
+            }}
+          >
+            {/* Founder ribbon */}
+            {item.featured && (
+              <span
+                className="absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold font-mono text-bg"
+                style={{
+                  background: "linear-gradient(135deg, var(--cyan), var(--lime))",
+                  boxShadow: "0 0 20px -6px var(--lime)",
+                }}
+              >
+                <Sparkles className="h-3 w-3" /> Founder · Built by me
+              </span>
+            )}
+
+            {/* header band */}
+            <div
+              className={`relative flex items-center justify-center overflow-hidden ${
+                item.featured ? "h-40" : "h-32"
+              }`}
+              style={{
+                background: `linear-gradient(135deg, ${ACCENT_VAR[item.accent]}22, transparent 70%)`,
+              }}
+            >
+              <div
+                className="absolute inset-0 opacity-40"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }}
+              />
+              <span
+                className={`relative grid place-items-center rounded-2xl text-bg transition-transform duration-300 group-hover:scale-110 ${
+                  item.featured ? "h-16 w-16" : "h-14 w-14"
+                }`}
+                style={{
+                  background: ACCENT_VAR[item.accent],
+                  boxShadow: `0 0 32px -6px ${ACCENT_VAR[item.accent]}`,
+                }}
+              >
+                <item.icon className={item.featured ? "h-8 w-8" : "h-7 w-7"} />
+              </span>
             </div>
-            <div className="text-sm text-slate-500 mb-4">{exp.duration}</div>
-            <ul className="space-y-3 list-disc pl-5">
-              {exp.achievements.map((ach) => (
-                <li key={ach} className="text-slate-600 leading-relaxed">
-                  {ach}
-                </li>
-              ))}
-            </ul>
+
+            <div className="flex flex-1 flex-col p-6">
+              <p className="font-mono text-xs uppercase tracking-wider" style={{ color: ACCENT_VAR[item.accent] }}>
+                {item.company}
+              </p>
+              <h3
+                className={`mt-1 font-display font-bold text-foreground ${
+                  item.featured ? "text-xl sm:text-2xl" : "text-lg"
+                }`}
+              >
+                {item.title}
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{item.description}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border px-2.5 py-1 text-[11px] text-muted"
+                    style={{ borderColor: "var(--border)" }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </article>
         ))}
       </div>
@@ -502,190 +1159,234 @@ const Experience: React.FC = () => (
   </section>
 );
 
-const Services: React.FC = () => (
-  <section id="services" className="py-20 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle title="Services" subtitle="Comprehensive product management solutions to drive your business forward" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-        {SERVICES.map((s) => (
-          <div
-            key={s.title}
-            className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-          >
-            <div className="w-12 h-12 bg-slate-900 text-white rounded-lg flex items-center justify-center mb-4">
-              {React.createElement(s.icon, { className: "w-6 h-6" })}
+/*************************************************
+ * Certifications
+ *************************************************/
+const Certifications: React.FC = () => (
+  <section id="certifications" className="relative py-24">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="Credentials"
+        title={<>Certified &amp; <span className="text-gradient-lime">always learning</span></>}
+        subtitle="Six certifications spanning product, cloud, AI, and agile."
+        accent="lime"
+      />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {CERTIFICATIONS.map((cert) => {
+          const inner = (
+            <>
+              <span
+                className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl"
+                style={{
+                  color: ACCENT_VAR[cert.accent],
+                  background: "rgba(255,255,255,0.04)",
+                  boxShadow: `0 0 22px -8px ${ACCENT_VAR[cert.accent]}`,
+                }}
+              >
+                <cert.icon className="h-5 w-5" />
+              </span>
+              <div className="min-w-0">
+                <h3 className="font-display text-sm font-semibold text-foreground">{cert.title}</h3>
+                <p className="text-xs text-muted">{cert.issuer}</p>
+              </div>
+              {cert.href && (
+                <ArrowUpRight className="ml-auto h-4 w-4 flex-shrink-0 text-muted transition-colors group-hover:text-foreground" />
+              )}
+            </>
+          );
+          const cls =
+            "reveal group flex items-center gap-4 rounded-2xl border glass p-5 transition-transform duration-300 hover:-translate-y-1";
+          return cert.href ? (
+            <a
+              key={cert.title}
+              href={cert.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cls}
+              style={{ borderColor: "var(--border)" }}
+            >
+              {inner}
+            </a>
+          ) : (
+            <div key={cert.title} className={cls} style={{ borderColor: "var(--border)" }}>
+              {inner}
             </div>
-            <h3 className="text-xl font-bold text-slate-900 mb-3">{s.title}</h3>
-            <p className="text-slate-600 leading-relaxed">{s.description}</p>
-          </div>
-        ))}
+          );
+        })}
+      </div>
+
+      {/* Education */}
+      <div
+        className="reveal mt-8 flex flex-col items-start gap-4 rounded-2xl border glass p-6 sm:flex-row sm:items-center"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <span
+          className="grid h-12 w-12 place-items-center rounded-xl"
+          style={{
+            color: "var(--violet)",
+            background: "rgba(255,255,255,0.04)",
+            boxShadow: "0 0 24px -8px var(--violet)",
+          }}
+        >
+          <GraduationCap className="h-6 w-6" />
+        </span>
+        <div>
+          <h3 className="font-display text-base font-semibold text-foreground">
+            B.Sc. Biochemistry
+          </h3>
+          <p className="text-sm text-muted">
+            University of Agriculture, Makurdi · Benue State · 2015 – 2019
+          </p>
+        </div>
       </div>
     </div>
   </section>
 );
 
-const PortfolioGrid: React.FC = () => (
-  <section id="portfolio" className="py-20 bg-slate-50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <SectionTitle title="Portfolio" subtitle="Key projects and outcomes" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-        {PORTFOLIO_ITEMS.map((item) => (
-          <div
-            key={item.title}
-            className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
-          >
-            <div className="h-40 bg-slate-900 flex items-center justify-center text-white">
-              {React.createElement(item.icon, { className: "w-10 h-10" })}
-            </div>
-            <div className="p-6 flex-1 flex flex-col">
-              <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
-              <p className="text-sm text-slate-500 mb-3">{item.company}</p>
-              <p className="text-slate-600 mb-4 flex-1">{item.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+/*************************************************
+ * Contact
+ *************************************************/
+const CONTACTS = [
+  { icon: Mail, label: "Email", value: "visiongideon@gmail.com", href: "mailto:visiongideon@gmail.com", accent: "cyan" as Accent },
+  { icon: Phone, label: "Phone", value: "(+234) 915 831 2438", href: "tel:+2349158312438", accent: "magenta" as Accent },
+  { icon: Linkedin, label: "LinkedIn", value: "vision-olufeagba", href: "https://www.linkedin.com/in/vision-olufeagba/", accent: "cyan" as Accent },
+  { icon: Twitter, label: "X (Twitter)", value: "@SimplyVision_", href: "https://x.com/SimplyVision_", accent: "violet" as Accent },
+  { icon: FileText, label: "Medium", value: "@SimplyVision_", href: "https://medium.com/@SimplyVision_", accent: "lime" as Accent },
+];
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate async submission
+    // Open the user's mail client with a prefilled message.
     setTimeout(() => {
-            alert(`Thank you, ${formData.name}! Your message has been sent successfully.`);
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      const body = `Hi Gideon,%0D%0A%0D%0A${encodeURIComponent(formData.message)}%0D%0A%0D%0A— ${encodeURIComponent(
+        formData.name
+      )} (${encodeURIComponent(formData.email)})`;
+      window.location.href = `mailto:visiongideon@gmail.com?subject=${encodeURIComponent(
+        formData.subject || "Portfolio enquiry"
+      )}&body=${body}`;
       setIsSubmitting(false);
-    }, 1200);
+      setSent(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }, 600);
   };
 
+  const field =
+    "w-full rounded-xl border bg-white/[0.02] px-4 py-2.5 text-foreground placeholder-muted transition-colors focus:outline-none";
+
   return (
-    <section id="contact" className="py-20 bg-slate-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle title="Get In Touch" subtitle="Let&apos;s discuss your product needs and move your roadmap forward" />
-        <div className="grid lg:grid-cols-2 gap-12">
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Let&apos;s Work Together</h3>
-            <p className="text-slate-300 mb-8">
-              I help teams build exceptional products through clear strategy, user‑centered design, and data‑informed decisions.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <a href="mailto:visiongideon@gmail.com" className="flex items-center p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
-                <Mail className="w-5 h-5 mr-3 text-slate-400" />
-                <div>
-                  <div className="font-semibold text-sm">Email</div>
-                  <div className="text-slate-300 text-sm">visiongideon@gmail.com</div>
-                </div>
-              </a>
-              <a href="tel:+2349158312438" className="flex items-center p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
-                <Phone className="w-5 h-5 mr-3 text-slate-400" />
-                <div>
-                  <div className="font-semibold text-sm">Phone</div>
-                  <div className="text-slate-300 text-sm">(+234) 9158312438</div>
-                </div>
-              </a>
+    <section id="contact" className="relative py-24" style={{ background: "var(--bg-soft)" }}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow="Contact"
+          title={<>Let&apos;s build something <span className="text-gradient">worth shipping</span></>}
+          subtitle="Open to product roles and collaborations. Drop a line — I reply fast."
+          accent="magenta"
+        />
+
+        <div className="grid gap-10 lg:grid-cols-5">
+          <div className="reveal space-y-3 lg:col-span-2">
+            {CONTACTS.map((c) => (
               <a
-                href="https://www.linkedin.com/in/vision-olufeagba/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
+                key={c.label}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="group flex items-center gap-4 rounded-xl border glass p-4 transition-transform duration-300 hover:-translate-y-0.5"
+                style={{ borderColor: "var(--border)" }}
               >
-                <Linkedin className="w-5 h-5 mr-3 text-slate-400" />
+                <span
+                  className="grid h-10 w-10 place-items-center rounded-lg"
+                  style={{
+                    color: ACCENT_VAR[c.accent],
+                    background: "rgba(255,255,255,0.04)",
+                    boxShadow: `0 0 20px -8px ${ACCENT_VAR[c.accent]}`,
+                  }}
+                >
+                  <c.icon className="h-5 w-5" />
+                </span>
                 <div>
-                  <div className="font-semibold text-sm">LinkedIn</div>
-                  <div className="text-slate-300 text-sm">vision-olufeagba</div>
+                  <div className="text-xs font-medium uppercase tracking-wider text-muted">{c.label}</div>
+                  <div className="text-sm text-foreground">{c.value}</div>
                 </div>
+                <ArrowUpRight className="ml-auto h-4 w-4 text-muted transition-colors group-hover:text-foreground" />
               </a>
-              <a
-                href="https://x.com/SimplyVision_"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
+            ))}
+            <div
+              className="flex items-center gap-4 rounded-xl border glass p-4"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <span
+                className="grid h-10 w-10 place-items-center rounded-lg"
+                style={{ color: "var(--lime)", background: "rgba(255,255,255,0.04)" }}
               >
-                <Twitter className="w-5 h-5 mr-3 text-slate-400" />
-                <div>
-                  <div className="font-semibold text-sm">X (Twitter)</div>
-                  <div className="text-slate-300 text-sm">@visionolufeagba</div>
-                </div>
-              </a>
-              <a
-                href="https://medium.com/@SimplyVision_"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"
-              >
-                <FileText className="w-5 h-5 mr-3 text-slate-400" />
-                <div>
-                  <div className="font-semibold text-sm">Medium</div>
-                  <div className="text-slate-300 text-sm">@visionolufeagba</div>
-                </div>
-              </a>
-              <div className="flex items-center p-3 bg-slate-800 rounded-lg">
-                <MapPin className="w-5 h-5 mr-3 text-slate-400" />
-                <div>
-                  <div className="font-semibold text-sm">Location</div>
-                  <div className="text-slate-300 text-sm">Abuja, Nigeria</div>
-                </div>
+                <MapPin className="h-5 w-5" />
+              </span>
+              <div>
+                <div className="text-xs font-medium uppercase tracking-wider text-muted">Location</div>
+                <div className="text-sm text-foreground">Nigeria · Open to Remote</div>
               </div>
             </div>
           </div>
 
-          <form onSubmit={onSubmit} className="bg-slate-800 rounded-xl p-8" noValidate>
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                required
-                value={formData.name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
-                autoComplete="name"
-              />
+          <form
+            onSubmit={onSubmit}
+            className="reveal rounded-2xl border glass p-6 sm:p-8 lg:col-span-3"
+            style={{ borderColor: "var(--border)" }}
+            noValidate
+          >
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className={field}
+                  style={{ borderColor: "var(--border)" }}
+                  autoComplete="name"
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className={field}
+                  style={{ borderColor: "var(--border)" }}
+                  autoComplete="email"
+                />
+              </div>
             </div>
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                required
-                value={formData.email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
-                autoComplete="email"
-              />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="subject" className="block text-sm font-medium mb-2">
+            <div className="mt-5">
+              <label htmlFor="subject" className="mb-2 block text-sm font-medium text-foreground">
                 Subject
               </label>
               <input
-                type="text"
                 id="subject"
-                required
+                type="text"
                 value={formData.subject}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white"
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                className={field}
+                style={{ borderColor: "var(--border)" }}
               />
             </div>
-            <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
+            <div className="mt-5">
+              <label htmlFor="message" className="mb-2 block text-sm font-medium text-foreground">
                 Message
               </label>
               <textarea
@@ -693,18 +1394,30 @@ const Contact: React.FC = () => {
                 rows={4}
                 required
                 value={formData.message}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Tell me about your product management needs..."
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-white text-white placeholder-slate-400"
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                placeholder="Tell me about your product, team, or role..."
+                className={`${field} resize-none`}
+                style={{ borderColor: "var(--border)" }}
               />
             </div>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-8 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-bg transition-transform hover:-translate-y-0.5 disabled:opacity-60"
+              style={{
+                background: "linear-gradient(135deg, var(--cyan), var(--violet))",
+                boxShadow: "0 0 28px -8px var(--cyan)",
+              }}
             >
-              {isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? "Opening mail…" : sent ? "Message ready ✓" : "Send Message"}
+              {!isSubmitting && !sent && <ArrowUpRight className="h-5 w-5" />}
             </button>
+            {sent && (
+              <p className="mt-3 text-center text-xs text-muted">
+                Your mail app should have opened. If not, email{" "}
+                <span style={{ color: "var(--cyan)" }}>visiongideon@gmail.com</span> directly.
+              </p>
+            )}
           </form>
         </div>
       </div>
@@ -712,151 +1425,63 @@ const Contact: React.FC = () => {
   );
 };
 
+/*************************************************
+ * Footer
+ *************************************************/
+const SOCIALS = [
+  { icon: Linkedin, href: "https://www.linkedin.com/in/vision-olufeagba/", label: "LinkedIn" },
+  { icon: Twitter, href: "https://x.com/SimplyVision_", label: "X (Twitter)" },
+  { icon: FileText, href: "https://medium.com/@SimplyVision_", label: "Medium" },
+  { icon: Mail, href: "mailto:visiongideon@gmail.com", label: "Email" },
+];
+
 const Footer: React.FC = () => (
-  <footer className="bg-slate-950 text-white py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-        <div>
-          <h3 className="text-lg font-bold mb-4">Gideon Vision Olufeagba (CPM)</h3>
-          <p className="text-slate-400 text-sm mb-4">
-            Results-driven Product Manager specializing in end-to-end product development, strategic planning, and cross-functional leadership.
-          </p>
-          <div className="flex space-x-3">
-            <a
-              href="https://www.linkedin.com/in/vision-olufeagba/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a
-              href="https://x.com/SimplyVision_"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"
-              aria-label="X (Twitter)"
-            >
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a
-              href="https://medium.com/@SimplyVision_"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"
-              aria-label="Medium"
-            >
-              <FileText className="w-4 h-4" />
-            </a>
-            <a
-              href="mailto:visiongideon@gmail.com"
-              className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="w-4 h-4" />
-            </a>
+  <footer className="relative border-t py-12" style={{ borderColor: "var(--border)" }}>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div className="flex items-center gap-3">
+          <span
+            className="grid h-9 w-9 place-items-center rounded-lg font-mono text-sm text-bg"
+            style={{ background: "linear-gradient(135deg, var(--cyan), var(--magenta))" }}
+          >
+            GV
+          </span>
+          <div>
+            <div className="font-display font-bold text-foreground">Gideon Vision Olufeagba</div>
+            <div className="text-xs text-muted">Product Manager · CPM</div>
           </div>
         </div>
-        <div>
-          <h3 className="text-lg font-bold mb-4">Expertise</h3>
-          <ul className="space-y-2 text-sm text-slate-400">
-            <li>Product Strategy & Roadmapping</li>
-            <li>Agile Product Management</li>
-            <li>User Research & Analytics</li>
-            <li>Stakeholder Management</li>
-            <li>EdTech & AgTech Solutions</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-          <ul className="space-y-2 text-sm text-slate-400">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="hover:text-white transition-colors"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-lg font-bold mb-4">Certifications</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <a
-                href="https://certificates.aipmm.com/e7039c87-ad2f-4e1a-8a2d-216dc9dad49f#acc.QjXTrEkP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-400 hover:text-white transition-colors"
-              >
-                <Award className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>Certified Product Manager (CPM)</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.credly.com/badges/4f92fbdc-f6a5-4701-acbb-cdcca944dc0b/public_url"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-400 hover:text-white transition-colors"
-              >
-                <Cloud className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>AWS Certified Cloud Practitioner</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.udacity.com/certificate/e/c582a9d4-b93a-11ee-b642-1739e588702b"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-400 hover:text-white transition-colors"
-              >
-                <BookOpen className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>Product Manager Nanodegree</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.scrumstudy.com/certification/verify?type=SFC&number=973461"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-400 hover:text-white transition-colors"
-              >
-                <GitBranch className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>Scrum Fundamentals Certified</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.credly.com/badges/267d90bc-0660-4300-8ebf-3c88317a8597/linked_in_profile"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-slate-400 hover:text-white transition-colors"
-              >
-                <Brain className="w-4 h-4 mr-2 flex-shrink-0" />
-                <span>AI for Product Management</span>
-              </a>
-            </li>
-          </ul>
+
+        <div className="flex items-center gap-3">
+          {SOCIALS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target={s.href.startsWith("http") ? "_blank" : undefined}
+              rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              aria-label={s.label}
+              className="grid h-10 w-10 place-items-center rounded-full border text-muted transition-all duration-300 hover:-translate-y-0.5 hover:text-foreground"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <s.icon className="h-4 w-4" />
+            </a>
+          ))}
         </div>
       </div>
-      <div className="border-t border-slate-800 pt-8 text-center">
-        <p className="text-sm text-slate-400">© {new Date().getFullYear()} Gideon Vision Olufeagba (CPM). All rights reserved.</p>
+
+      <div
+        className="mt-8 flex flex-col items-center justify-between gap-2 border-t pt-6 text-center text-xs text-muted sm:flex-row"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <p>© {new Date().getFullYear()} Gideon Vision Olufeagba. All rights reserved.</p>
+        <p className="font-mono">Built with Next.js · Designed in the dark.</p>
       </div>
     </div>
   </footer>
 );
 
 /*************************************************
- * Root component
+ * Root
  *************************************************/
 const Portfolio: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -865,20 +1490,23 @@ const Portfolio: React.FC = () => {
 
   const activeSection = useScrollSpy(NAV_ITEMS.map((n) => n.id));
   useIntersection(statsRef, () => setStatsRun(true), { threshold: 0.3 });
-
-  // Memoize skills to a plain array for mapping (types are readonly)
-  const skills = useMemo(() => [...SKILLS], []);
+  useReveal();
 
   return (
-    <div className="min-h-screen bg-white">
-      <Navbar active={activeSection} isOpen={menuOpen} setOpen={setMenuOpen} />
-      <Hero />
-      <About statsRef={statsRef} statsRun={statsRun} skills={skills} />
-      <Experience />
-      <Services />
-      <PortfolioGrid />
-      <Contact />
-      <Footer />
+    <div className="relative min-h-screen">
+      <Backdrop />
+      <div className="relative z-10">
+        <Navbar active={activeSection} isOpen={menuOpen} setOpen={setMenuOpen} />
+        <Hero />
+        <MarqueeStrip />
+        <About statsRef={statsRef} statsRun={statsRun} />
+        <Experience />
+        <Services />
+        <Work />
+        <Certifications />
+        <Contact />
+        <Footer />
+      </div>
     </div>
   );
 };
